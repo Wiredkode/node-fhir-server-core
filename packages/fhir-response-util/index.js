@@ -73,6 +73,13 @@ function create(req, res, json, options) {
     location = `${fhirVersion}/${options.type}/${json.id}`;
   }
 
+  /*Prefer: return=minimal
+  Prefer: return=representation
+  Prefer: return=OperationOutcome*/
+
+  let prefer = 'return=representation';
+  
+
   if (json.resource_version) {
     let pathname = path.posix.join(location, '_history', json.resource_version);
     res.set('Content-Location', `${baseUrl}/${pathname}`);
@@ -80,7 +87,11 @@ function create(req, res, json, options) {
   }
 
   res.set('Location', location);
-  res.status(201).end();
+  if (prefer === 'return=representation') {
+    res.status(201).json(json.resource);
+  } else {
+    res.status(201).end();
+  }
 }
 
 /**
@@ -104,10 +115,19 @@ function update(req, res, json, options) {
     res.set('ETag', json.resource_version);
   }
 
+  let prefer = 'return=minimal';
+  if (req.headers('Prefer')) {
+    prefer = req.headers('Prefer');
+  }
+
   res.set('Last-Modified', date.toISOString());
   res.type(getContentType(fhirVersion));
   res.set('Location', location);
-  res.status(status).end();
+  if (prefer === 'return=representation') {
+    res.status(status).json(json.resource);
+  } else {
+    res.status(status).end();
+  }
 }
 
 /**

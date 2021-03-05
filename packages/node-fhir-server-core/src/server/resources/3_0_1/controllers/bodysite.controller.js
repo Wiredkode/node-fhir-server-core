@@ -1,4 +1,4 @@
-const handler = require('@asymmetrik/fhir-response-util');
+const handler = require('../../../../extensions/wkfhirresponseutils');
 
 /**
  * @function search
