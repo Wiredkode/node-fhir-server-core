@@ -77,7 +77,10 @@ function create(req, res, json, options) {
   Prefer: return=representation
   Prefer: return=OperationOutcome*/
 
-  let prefer = 'return=representation';
+  let prefer = 'return=minimal';
+  if (req.header('Prefer')) {
+    prefer = req.header('Prefer');
+  }
 
   if (json.resource_version) {
     let pathname = path.posix.join(location, '_history', json.resource_version);
@@ -115,8 +118,8 @@ function update(req, res, json, options) {
   }
 
   let prefer = 'return=minimal';
-  if (req.headers('Prefer')) {
-    prefer = req.headers('Prefer');
+  if (req.header('Prefer')) {
+    prefer = req.header('Prefer');
   }
 
   res.set('Last-Modified', date.toISOString());
