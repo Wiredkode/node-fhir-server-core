@@ -1,6 +1,6 @@
 {
   "name": "@wiredkode/wk-node-fhir-server-core",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Node FHIR Rest API Server",
   "license": "MIT",
   "author": "Wiredkode Lda",
