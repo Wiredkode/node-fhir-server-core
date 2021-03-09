@@ -121,7 +121,7 @@ function enableOperationRoutesForProfile(app, config, profile, key, parameters, 
         operationsRoute,
         cors(corsOptions),
         versionValidationMiddleware(profile),
-        sanitizeMiddleware([routeArgs.BASE, routeArgs.ID, ...parameters]),
+        sanitizeMiddleware([routeArgs.INSTANCE, routeArgs.BASE, routeArgs.ID, ...parameters]),
         authenticationMiddleware(config),
         sofScopeMiddleware({ route, auth: config.auth, name: key }),
         // TODO: REMOVE: logger in future versions
@@ -143,7 +143,7 @@ function enableOperationRoutesForProfile(app, config, profile, key, parameters, 
       operationRoute,
       cors(corsOptions),
       versionValidationMiddleware(profile),
-      sanitizeMiddleware([routeArgs.BASE, routeArgs.ID, ...parameters]),
+      sanitizeMiddleware([routeArgs.INSTANCE, routeArgs.BASE, routeArgs.ID, ...parameters]),
       authenticationMiddleware(config),
       sofScopeMiddleware({ route, auth: config.auth, name: key }),
       // TODO: REMOVE: logger in future versions
@@ -267,24 +267,24 @@ function enableResourceRoutes(app, config, corsDefaults) {
       // Define the arguments based on the interactions
       switch (route.interaction) {
         case INTERACTIONS.CREATE:
-          route.args = [routeArgs.BASE];
+          route.args = [routeArgs.INSTANCE, routeArgs.BASE];
           break;
         case INTERACTIONS.SEARCH_BY_ID:
         case INTERACTIONS.UPDATE:
         case INTERACTIONS.DELETE:
         case INTERACTIONS.PATCH:
-          route.args = [routeArgs.BASE, routeArgs.ID];
+          route.args = [routeArgs.INSTANCE, routeArgs.BASE, routeArgs.ID];
           break;
         case INTERACTIONS.SEARCH:
         case INTERACTIONS.HISTORY:
-          route.args = [routeArgs.BASE, ...parameters];
+          route.args = [routeArgs.INSTANCE, routeArgs.BASE, ...parameters];
           break;
         case INTERACTIONS.HISTORY_BY_ID:
         case INTERACTIONS.EXPAND_BY_ID:
-          route.args = [routeArgs.BASE, routeArgs.ID, ...parameters];
+          route.args = [routeArgs.INSTANCE, routeArgs.BASE, routeArgs.ID, ...parameters];
           break;
         case INTERACTIONS.SEARCH_BY_VID:
-          route.args = [routeArgs.BASE, routeArgs.ID, routeArgs.VERSION_ID];
+          route.args = [routeArgs.INSTANCE, routeArgs.BASE, routeArgs.ID, routeArgs.VERSION_ID];
           break;
       }
 
