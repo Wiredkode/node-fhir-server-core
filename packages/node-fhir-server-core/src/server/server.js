@@ -267,7 +267,7 @@ class Server {
           issue: [
             {
               severity: 'error',
-              code: 'internal',
+              code: 'processing',
               details: {
                 text: `Unexpected: ${err.message}`,
               },
